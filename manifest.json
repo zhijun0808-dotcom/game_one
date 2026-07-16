@@ -1,0 +1,11 @@
+{
+  "name": "防线守卫 · 塔防游戏",
+  "short_name": "防线守卫",
+  "description": "经典塔防游戏，守卫你的防线！",
+  "start_url": "./index.html",
+  "display": "fullscreen",
+  "orientation": "landscape",
+  "background_color": "#0a0e1a",
+  "theme_color": "#4fc3f7",
+  "icons": []
+}

@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+  <meta name="mobile-web-app-capable" content="yes" />
+  <meta name="screen-orientation" content="landscape" />
+  <link rel="manifest" href="manifest.json" />
+  <title>防线守卫 · 塔防游戏</title>
+  <link rel="stylesheet" href="css/style.css" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@400;500;700;900&family=Orbitron:wght@500;700;900&display=swap" rel="stylesheet" />
+</head>
+<body>
+  <div id="app">
+    <!-- 主菜单 -->
+    <div id="screen-menu" class="screen active">
+      <div class="menu-bg"></div>
+      <div class="menu-content">
+        <div class="logo">
+          <div class="logo-icon">⚔</div>
+          <h1>防线守卫</h1>
+          <p class="subtitle">TOWER DEFENSE</p>
+        </div>
+        <div class="menu-buttons">
+          <button class="btn btn-primary btn-lg" id="btn-play">开始游戏</button>
+          <button class="btn btn-secondary btn-lg" id="btn-levels">选择关卡</button>
+          <button class="btn btn-secondary btn-lg" id="btn-achievements">成就</button>
+          <button class="btn btn-ghost btn-lg" id="btn-howto">操作说明</button>
+        </div>
+        <div class="menu-footer">
+          <span>最高通关：第 <strong id="best-level">0</strong> 关</span>
+          <span class="menu-sep">·</span>
+          <span>成就 <strong id="ach-count">0/0</strong></span>
+        </div>
+        <button class="btn btn-ghost btn-sm music-toggle" id="btn-music-menu" title="切换音乐">音乐</button>
+      </div>
+    </div>
+
+    <!-- 关卡选择 -->
+    <div id="screen-levels" class="screen">
+      <div class="panel">
+        <div class="panel-header">
+          <button class="btn btn-ghost btn-sm" id="btn-levels-back">← 返回</button>
+          <h2>选择关卡</h2>
+          <div style="width:80px"></div>
+        </div>
+        <div id="level-grid" class="level-grid"></div>
+      </div>
+    </div>
+
+    <!-- 成就 -->
+    <div id="screen-achievements" class="screen">
+      <div class="panel panel-ach">
+        <div class="panel-header">
+          <button class="btn btn-ghost btn-sm" id="btn-ach-back">← 返回</button>
+          <h2>成就</h2>
+          <div id="ach-summary" class="ach-summary">0/0</div>
+        </div>
+        <div id="ach-list" class="ach-list"></div>
+      </div>
+    </div>
+
+    <!-- 操作说明 -->
+    <div id="screen-howto" class="screen">
+      <div class="panel panel-narrow">
+        <div class="panel-header">
+          <button class="btn btn-ghost btn-sm" id="btn-howto-back">← 返回</button>
+          <h2>操作说明</h2>
+          <div style="width:80px"></div>
+        </div>
+        <div class="howto-body">
+          <div class="howto-item">
+            <span class="howto-key">建造</span>
+            <p>从底部<strong>拖拽</strong>防御塔到地图空地松开放置；也可点击选中后再点击地图。路径上不可建造。</p>
+          </div>
+          <div class="howto-item">
+            <span class="howto-key">升级 / 出售</span>
+            <p>点击已有防御塔，可消耗金币升级，或出售回收部分金币。</p>
+          </div>
+          <div class="howto-item">
+            <span class="howto-key">波次（自动）</span>
+            <p>每关波次会在倒计时结束后自动开启。开局约 5–8 秒后第一波自动开始；清完一波后约 5 秒自动下一波。手动提前开波可获金币奖励。</p>
+          </div>
+          <div class="howto-item">
+            <span class="howto-key">关卡解锁</span>
+            <p>默认仅解锁第 1 关。通关当前关后解锁下一关；已解锁关卡可在「选择关卡」中重玩。</p>
+          </div>
+          <div class="howto-item">
+            <span class="howto-key">目标</span>
+            <p>阻止敌人抵达终点。生命归零则失败。清空所有波次即通关。</p>
+          </div>
+          <div class="howto-item">
+            <span class="howto-key">快捷键</span>
+            <p>1-4 选塔 · Esc 取消/暂停 · 空格 提前开波 · Q 加速</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 游戏主界面 -->
+    <div id="screen-game" class="screen">
+      <div class="game-layout">
+        <header class="hud">
+          <div class="hud-left">
+            <button class="btn btn-ghost btn-sm" id="btn-pause" title="暂停 (Esc)">⏸</button>
+            <div class="hud-stat">
+              <span class="stat-label">关卡</span>
+              <span class="stat-value" id="hud-level">1</span>
+            </div>
+            <div class="hud-stat">
+              <span class="stat-label">波次</span>
+              <span class="stat-value"><span id="hud-wave">0</span>/<span id="hud-max-wave">10</span></span>
+            </div>
+            <div class="hud-stat">
+              <span class="stat-label">自动</span>
+              <span class="stat-value" id="hud-auto-wave">—</span>
+            </div>
+          </div>
+          <div class="hud-center">
+            <div class="hud-stat gold">
+              <span class="stat-icon">💰</span>
+              <span class="stat-value" id="hud-gold">100</span>
+            </div>
+            <div class="hud-stat lives">
+              <span class="stat-icon">❤</span>
+              <span class="stat-value" id="hud-lives">20</span>
+            </div>
+            <div class="hud-stat score">
+              <span class="stat-icon">★</span>
+              <span class="stat-value" id="hud-score">0</span>
+            </div>
+          </div>
+          <div class="hud-right">
+            <button class="btn btn-ghost btn-sm" id="btn-music-game" title="切换音乐">🔊</button>
+            <button class="btn btn-accent btn-sm" id="btn-speed" title="加速 (Q)">×1</button>
+            <button class="btn btn-primary btn-sm" id="btn-next-wave">开始下一波</button>
+          </div>
+        </header>
+
+        <div class="game-main">
+          <canvas id="game-canvas" width="960" height="640"></canvas>
+          <div id="tower-tooltip" class="tooltip hidden"></div>
+        </div>
+
+        <footer class="toolbar">
+          <div class="tower-shop" id="tower-shop"></div>
+          <div class="tower-info" id="tower-info">
+            <div class="info-placeholder">选择防御塔建造，或点击已有塔进行升级</div>
+          </div>
+        </footer>
+      </div>
+    </div>
+
+    <!-- 暂停遮罩 -->
+    <div id="overlay-pause" class="overlay hidden">
+      <div class="overlay-card">
+        <h2>游戏暂停</h2>
+        <button class="btn btn-primary btn-lg" id="btn-resume">继续游戏</button>
+        <button class="btn btn-secondary btn-lg" id="btn-restart">重新开始</button>
+        <button class="btn btn-ghost btn-lg" id="btn-quit">返回菜单</button>
+      </div>
+    </div>
+
+    <!-- 胜利 -->
+    <div id="overlay-win" class="overlay hidden">
+      <div class="overlay-card win">
+        <div class="overlay-icon">🏆</div>
+        <h2>关卡通过！</h2>
+        <p class="overlay-score">得分：<strong id="win-score">0</strong></p>
+        <p class="overlay-stars" id="win-stars">★★★</p>
+        <div class="overlay-actions">
+          <button class="btn btn-primary btn-lg" id="btn-next-level">下一关</button>
+          <button class="btn btn-secondary btn-lg" id="btn-win-menu">返回菜单</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- 失败 -->
+    <div id="overlay-lose" class="overlay hidden">
+      <div class="overlay-card lose">
+        <div class="overlay-icon">💀</div>
+        <h2>防线崩溃</h2>
+        <p class="overlay-score">得分：<strong id="lose-score">0</strong></p>
+        <div class="overlay-actions">
+          <button class="btn btn-primary btn-lg" id="btn-retry">再试一次</button>
+          <button class="btn btn-secondary btn-lg" id="btn-lose-menu">返回菜单</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- 全部通关 -->
+    <div id="overlay-complete" class="overlay hidden">
+      <div class="overlay-card win">
+        <div class="overlay-icon">👑</div>
+        <h2>全部通关！</h2>
+        <p>你已守卫住所有防线，成为传奇指挥官！</p>
+        <p class="overlay-score">总得分：<strong id="complete-score">0</strong></p>
+        <button class="btn btn-primary btn-lg" id="btn-complete-menu">返回菜单</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- 拖拽建造幽灵 -->
+  <div id="drag-ghost" class="drag-ghost hidden"></div>
+
+  <!-- 成就解锁 toast -->
+  <div id="ach-toast" class="ach-toast hidden"></div>
+
+  <!-- 竖屏提示 -->
+  <div id="rotate-prompt" class="rotate-prompt">
+    <div class="rotate-prompt-inner">
+      <div class="rotate-icon">📱↻</div>
+      <p>请横屏游玩以获得最佳体验</p>
+    </div>
+  </div>
+
+  <script src="js/levels.js"></script>
+  <script src="js/enemies.js"></script>
+  <script src="js/towers.js"></script>
+  <script src="js/achievements.js"></script>
+  <script src="js/audio.js"></script>
+  <script src="js/game.js"></script>
+  <script src="js/ui.js"></script>
+  <script src="js/main.js"></script>
+  <script>
+    // 竖屏提示：仅手机竖屏时显示
+    (function() {
+      var prompt = document.getElementById('rotate-prompt');
+      if (!prompt) return;
+      function check() {
+        var isMobile = /Android|iPhone|iPad|iPod|webOS|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+        var isPortrait = window.innerHeight > window.innerWidth;
+        if (isMobile && isPortrait) {
+          prompt.style.display = 'flex';
+        } else {
+          prompt.style.display = 'none';
+        }
+      }
+      window.addEventListener('resize', check);
+      window.addEventListener('orientationchange', function() { setTimeout(check, 100); });
+      check();
+    })();
+  </script>
+</body>
+</html>
