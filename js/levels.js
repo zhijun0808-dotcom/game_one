@@ -7,9 +7,9 @@ const COLS = 15;
 const ROWS = 10;
 
 /** 全局默认：波次清空后多久自动开下一波（秒） */
-const DEFAULT_AUTO_WAVE_DELAY = 5;
+const DEFAULT_AUTO_WAVE_DELAY = 3;
 /** 开局后多久自动开第一波（秒） */
-const DEFAULT_FIRST_WAVE_DELAY = 8;
+const DEFAULT_FIRST_WAVE_DELAY = 10;
 
 function pathToPixels(gridPath) {
   return gridPath.map(([c, r]) => ({
@@ -167,26 +167,26 @@ const PATHS = {
 };
 
 const LEVEL_META = [
-  { name: "新手村道", desc: "熟悉建造与波次，轻松上路。", theme: "grass", path: "village", gold: 160, lives: 20, auto: 5, first: 8 },
-  { name: "弯道伏击", desc: "更多拐角，适合布置射程塔。", theme: "grass", path: "bend", gold: 165, lives: 18, auto: 5, first: 8 },
-  { name: "十字路口", desc: "炮塔清群将大显身手。", theme: "dirt", path: "cross", gold: 180, lives: 16, auto: 5, first: 8 },
-  { name: "冰封峡谷", desc: "减速塔在此关大放异彩。", theme: "ice", path: "canyon", gold: 190, lives: 15, auto: 5, first: 8 },
-  { name: "熔岩裂隙", desc: "装甲敌人增多，升级火力。", theme: "lava", path: "lava", gold: 200, lives: 14, auto: 5, first: 7 },
-  { name: "螺旋迷宫", desc: "长路径，敌人潮水般涌来。", theme: "dirt", path: "spiral", gold: 220, lives: 14, auto: 5, first: 7 },
-  { name: "暗影要塞", desc: "高强度混合波次。", theme: "shadow", path: "fortress", gold: 240, lives: 13, auto: 5, first: 7 },
-  { name: "裂隙之门", desc: "路径曲折，布局为王。", theme: "final", path: "gate", gold: 250, lives: 12, auto: 5, first: 7 },
-  { name: "锯齿荒原", desc: "之字形路线拉长交战时间。", theme: "dirt", path: "zigzag", gold: 260, lives: 12, auto: 5, first: 6 },
-  { name: "登天石阶", desc: "拾级而上，火力必须跟上。", theme: "grass", path: "stairs", gold: 270, lives: 12, auto: 5, first: 6 },
-  { name: "蛇形暗道", desc: "反复折返，适合多重夹击。", theme: "shadow", path: "snake", gold: 280, lives: 11, auto: 5, first: 6 },
-  { name: "回环哨所", desc: "短路径高压，别让漏怪。", theme: "ice", path: "loop", gold: 290, lives: 11, auto: 5, first: 6 },
-  { name: "双谷夹击", desc: "上下穿越，注意射程覆盖。", theme: "grass", path: "valley", gold: 300, lives: 11, auto: 5, first: 6 },
-  { name: "山脊防线", desc: "中期决战，Boss 频繁出现。", theme: "lava", path: "ridge", gold: 310, lives: 10, auto: 5, first: 5 },
-  { name: "迷雾迷宫", desc: "复杂走位，考验预判。", theme: "shadow", path: "maze", gold: 320, lives: 10, auto: 5, first: 5 },
-  { name: "血河渡口", desc: "快慢混编，别被冲垮。", theme: "lava", path: "river", gold: 330, lives: 10, auto: 5, first: 5 },
-  { name: "黑曜城堡", desc: "装甲潮 + 多重首领。", theme: "shadow", path: "fortress2", gold: 350, lives: 10, auto: 5, first: 5 },
-  { name: "深渊回廊", desc: "接近终局，资源要精打细算。", theme: "final", path: "abyss", gold: 360, lives: 9, auto: 5, first: 5 },
-  { name: "星陨荒原", desc: "倒数第二关，全力备战。", theme: "ice", path: "zigzag", gold: 380, lives: 9, auto: 5, first: 5 },
-  { name: "终焉之门", desc: "最终考验。全力以赴！", theme: "final", path: "final", gold: 400, lives: 8, auto: 5, first: 5 },
+  { name: "新手村道", desc: "熟悉建造与波次，轻松上路。", theme: "grass", path: "village", gold: 160, lives: 20, auto: 3, first: 10 },
+  { name: "弯道伏击", desc: "更多拐角，适合布置射程塔。", theme: "grass", path: "bend", gold: 165, lives: 18, auto: 3, first: 10 },
+  { name: "十字路口", desc: "炮塔清群将大显身手。", theme: "dirt", path: "cross", gold: 180, lives: 16, auto: 3, first: 10 },
+  { name: "冰封峡谷", desc: "减速塔在此关大放异彩。", theme: "ice", path: "canyon", gold: 190, lives: 15, auto: 3, first: 10 },
+  { name: "熔岩裂隙", desc: "装甲敌人增多，升级火力。", theme: "lava", path: "lava", gold: 200, lives: 14, auto: 3, first: 10 },
+  { name: "螺旋迷宫", desc: "长路径，敌人潮水般涌来。", theme: "dirt", path: "spiral", gold: 220, lives: 14, auto: 3, first: 10 },
+  { name: "暗影要塞", desc: "高强度混合波次。", theme: "shadow", path: "fortress", gold: 240, lives: 13, auto: 3, first: 10 },
+  { name: "裂隙之门", desc: "路径曲折，布局为王。", theme: "final", path: "gate", gold: 250, lives: 12, auto: 3, first: 10 },
+  { name: "锯齿荒原", desc: "之字形路线拉长交战时间。", theme: "dirt", path: "zigzag", gold: 260, lives: 12, auto: 3, first: 10 },
+  { name: "登天石阶", desc: "拾级而上，火力必须跟上。", theme: "grass", path: "stairs", gold: 270, lives: 12, auto: 3, first: 10 },
+  { name: "蛇形暗道", desc: "反复折返，适合多重夹击。", theme: "shadow", path: "snake", gold: 280, lives: 11, auto: 3, first: 10 },
+  { name: "回环哨所", desc: "短路径高压，别让漏怪。", theme: "ice", path: "loop", gold: 290, lives: 11, auto: 3, first: 10 },
+  { name: "双谷夹击", desc: "上下穿越，注意射程覆盖。", theme: "grass", path: "valley", gold: 300, lives: 11, auto: 3, first: 10 },
+  { name: "山脊防线", desc: "中期决战，Boss 频繁出现。", theme: "lava", path: "ridge", gold: 310, lives: 10, auto: 3, first: 10 },
+  { name: "迷雾迷宫", desc: "复杂走位，考验预判。", theme: "shadow", path: "maze", gold: 320, lives: 10, auto: 3, first: 10 },
+  { name: "血河渡口", desc: "快慢混编，别被冲垮。", theme: "lava", path: "river", gold: 330, lives: 10, auto: 3, first: 10 },
+  { name: "黑曜城堡", desc: "装甲潮 + 多重首领。", theme: "shadow", path: "fortress2", gold: 350, lives: 10, auto: 3, first: 10 },
+  { name: "深渊回廊", desc: "接近终局，资源要精打细算。", theme: "final", path: "abyss", gold: 360, lives: 9, auto: 3, first: 10 },
+  { name: "星陨荒原", desc: "倒数第二关，全力备战。", theme: "ice", path: "zigzag", gold: 380, lives: 9, auto: 3, first: 10 },
+  { name: "终焉之门", desc: "最终考验。全力以赴！", theme: "final", path: "final", gold: 400, lives: 8, auto: 3, first: 10 },
 ];
 
 const LEVELS = LEVEL_META.map((meta, i) => {
